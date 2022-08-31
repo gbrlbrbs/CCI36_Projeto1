@@ -1,21 +1,23 @@
 import './style.css';
 import * as THREE from 'three';
 
-const scene = THREE.Scene();
+// Setup
+const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 1000);
 
-const renderer = new THREE.WebGL1Renderer({
+const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector('#bg'),
 });
 
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth/window.innerHeight);
+renderer.setSize(window.innerWidth,window.innerHeight);
 camera.getWorldPosition.setZ(30);
 
 renderer.render(scene,camera);
 
-const geometry = new THREE.TorusGeometry(10,3,16,100)
+//Torus
+const geometry = new THREE.TorusGeometry(10,3,16,100);
 const material = new THREE.MeshBasicMaterial({
     color: 0xFF6347,
     wireframe: true
@@ -28,6 +30,6 @@ renderer.render(scene,camera);
 
 function animate(){
     requestAnimationFrame(animate);
-    renderer.render(scene,camera);
+    renderer.render(scene, camera);
 }
-animate()
+animate();
