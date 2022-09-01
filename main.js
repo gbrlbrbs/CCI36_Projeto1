@@ -20,11 +20,38 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.render(scene, camera);
 
 const tangrams = createTangrams();
+const square = drawSquare();
 
 function createTangrams() {
-    const loader = new SVGLoader();
 
-    loader.load(
-        'data/'
-    )
+}
+
+function drawSquare(x1, y1, x2, y2) {
+
+	var square = new THREE.Geometry();
+    console.log(square);
+	square.vertices.push(new THREE.Vector3(x1,y1,0));
+    square.vertices.push(new THREE.Vector3(x1,y2,0));
+    square.vertices.push(new THREE.Vector3(x2,y1,0));
+    square.vertices.push(new THREE.Vector3(x2,y2,0));
+  
+    square.faces.push(new THREE.Face3(0,1,2));
+    square.faces.push(new THREE.Face3(1,2,3));
+	return square;
+}
+
+function drawPolygon(list_points) {
+    var  = new THREE.Geometry();
+    //console.log(square);
+    for (let p of list_points) {
+        
+    }
+	square.vertices.push(new THREE.Vector3(x1,y1,0));
+    square.vertices.push(new THREE.Vector3(x1,y2,0));
+    square.vertices.push(new THREE.Vector3(x2,y1,0));
+    square.vertices.push(new THREE.Vector3(x2,y2,0));
+  
+    square.faces.push(new THREE.Face3(0,1,2));
+    square.faces.push(new THREE.Face3(1,2,3));
+	return square;
 }
