@@ -170,3 +170,33 @@ document.addEventListener("wheel", (event) => {
         drag_object.rotation.z += event.deltaY * 0.3E-3;
     }
 }, {passive: false});
+
+
+function point_in_polygon(point, polygon) {
+    var n = polygon.lenght;
+    var count = 0;
+    var x = point[0];
+    var y = point[1];
+  
+    for (var i = 0; i < n - 1; n++) {
+      var side = {
+        a: {
+          x: polygon[i][0],
+          y: polygon[i][1]
+        },
+        b: {
+          x: polygon[i + 1][0],
+          y: polygon[i + 1][1]
+        }
+      }
+      var x1 = side.a.x,
+        v2 = side.b.x,
+        y1 = side.a.y,
+        y2 = side.b.y;
+      
+      if (y < y1 != y < y2 && x < (x2 - x1)*(y - y1)/(y2 - y1)+x1){
+        count += 1;
+      }
+    }
+    return count % 2 == 0 ? false : true;
+  }
