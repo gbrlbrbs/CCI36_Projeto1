@@ -2,8 +2,6 @@ import './style.css';
 import * as THREE from 'three';
 
 let camera, scene, renderer;
-const canvas = document.querySelector('bg');
-var is_dragging = false;
 
 init();
 animate();
@@ -101,14 +99,6 @@ function init() {
     
 }
 
-function getCanvasRelativePosition(event) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
-    };
-}
-
 function animate() {
 
   requestAnimationFrame(animate);
@@ -123,8 +113,8 @@ var pNormal = new THREE.Vector3(0, 0, 1); // plane's normal
 var planeIntersect = new THREE.Vector3(); // point of intersection with the plane
 var pIntersect = new THREE.Vector3(); // point of intersection with an object (plane's point)
 var shift = new THREE.Vector3(); // distance between position of an object and points of intersection with the object
-var isDragging = false;
-var dragObject;
+var is_dragging = false;
+var drag_object;
 
 
 // events
@@ -134,9 +124,9 @@ document.addEventListener("pointermove", event => {
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
       
-    if (isDragging) {
+    if (is_dragging) {
         raycaster.ray.intersectPlane(plane, planeIntersect);
-        dragObject.position.addVectors(planeIntersect, shift);
+        drag_object.position.addVectors(planeIntersect, shift);
     }
 });
 
@@ -146,12 +136,12 @@ document.addEventListener("pointerdown", () => {
         pIntersect.copy(intersects[0].point);
         plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
         shift.subVectors(intersects[0].object.position, intersects[0].point);
-        isDragging = true;
-        dragObject = intersects[0].object;
+        is_dragging = true;
+        drag_object = intersects[0].object;
     }
 });
 
 document.addEventListener("pointerup", () => {
-    isDragging = false;
-    dragObject = null;
+    is_dragging = false;
+    drag_object = null;
 } );
