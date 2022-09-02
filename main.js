@@ -98,10 +98,6 @@ function init() {
     const material_paralelogram = new THREE.MeshBasicMaterial({color: 0xffff00});
     const mesh_paralelogram= new THREE.Mesh(paralelogram, material_paralelogram);
     scene.add(mesh_paralelogram);
-
-    const axesHelper = new THREE.AxesHelper( 8 );
-    axesHelper.setColors(new THREE.Color('black'), new THREE.Color('white'), new THREE.Color('red'))
-    scene.add( axesHelper );
     
 }
 
