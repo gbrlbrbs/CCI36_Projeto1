@@ -2,6 +2,8 @@ import './style.css';
 import * as THREE from 'three';
 
 let camera, scene, renderer;
+const canvas = document.querySelector('bg');
+var is_dragging = false;
 
 init();
 animate();
@@ -98,6 +100,14 @@ function init() {
    scene.add(mesh_paralelogram);
 }
 
+function getCanvasRelativePosition(event) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    };
+}
+
 function animate() {
 
   requestAnimationFrame(animate);
@@ -105,3 +115,42 @@ function animate() {
 
 }
 
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+var plane = new THREE.Plane();
+var pNormal = new THREE.Vector3(0, 1, 0); // plane's normal
+var planeIntersect = new THREE.Vector3(); // point of intersection with the plane
+var pIntersect = new THREE.Vector3(); // point of intersection with an object (plane's point)
+var shift = new THREE.Vector3(); // distance between position of an object and points of intersection with the object
+var isDragging = false;
+var dragObject;
+
+
+// events
+document.addEventListener("pointermove", event => {
+
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+      
+    if (isDragging) {
+        raycaster.ray.intersectPlane(plane, planeIntersect);
+        dragObject.position.addVectors(planeIntersect, shift);
+    }
+});
+
+document.addEventListener("pointerdown", () => {
+    var intersects = raycaster.intersectObjects(scene.children);
+    if (intersects.length > 0) {
+        pIntersect.copy(intersects[0].point);
+        plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
+        shift.subVectors(intersects[0].object.position, intersects[0].point);
+        isDragging = true;
+        dragObject = intersects[0].object;
+    }
+});
+
+document.addEventListener("pointerup", () => {
+    isDragging = false;
+    dragObject = null;
+} );
