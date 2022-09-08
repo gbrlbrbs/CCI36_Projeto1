@@ -2,6 +2,9 @@ import './style.css';
 import * as THREE from 'three';
 
 let camera, scene, renderer;
+let silhouette_id;
+
+var pivot = new THREE.Group();
 
 init();
 animate();
@@ -30,16 +33,30 @@ function init() {
 
     //renderer.render(scene, camera);
 
-    const v1 = ([0,0,0]);
-    const v2 = ([8,0,0]);
-    const v3 = ([16,0,0]);
-    const v4 = ([16,8,0]);
-    const v5 = ([16,16,0]);
-    const v6 = ([0,16,0]);
-    const v7 = ([4,4,0]);
-    const v8 = ([8,8,0]);
-    const v9 = ([12,12,0]);
-    const v10 =([12,4,0]);
+    const v1 = ([-10,0,0]);
+    const v2 = ([-2,0,0]);
+    const v3 = ([6,0,0]);
+    const v4 = ([6,8,0]);
+    const v5 = ([6,16,0]);
+    const v6 = ([-10,16,0]);
+    const v7 = ([-6,4,0]);
+    const v8 = ([-2,8,0]);
+    const v9 = ([2,12,0]);
+    const v10 =([2,4,0]);
+    
+    const v11 = ([8, 0, -0.001]);
+    const v12 = ([30.3137, 0, -0.001]);
+    const v13 = ([30.3137, 11.3137, -0.001]);
+    const v14 = ([8, 11.3137, -0.001]);
+
+    //silhueta
+    const silhueta = new THREE.BufferGeometry();
+    const silhueta_concat = Float32Array.of(...v11,...v12, ...v13, ...v13, ...v14,...v11);
+    silhueta.setAttribute('position', new THREE.BufferAttribute(silhueta_concat, 3));
+    const material_silhueta = new THREE.MeshBasicMaterial({ color: 0xdcdcdc});
+    const mesh_silhueta = new THREE.Mesh(silhueta, material_silhueta);
+    silhouette_id = mesh_silhueta.id;
+    scene.add(mesh_silhueta);
 
     //square
     const square = new THREE.BufferGeometry();
@@ -96,7 +113,9 @@ function init() {
     const material_paralelogram = new THREE.MeshBasicMaterial({color: 0xffff00});
     const mesh_paralelogram= new THREE.Mesh(paralelogram, material_paralelogram);
     scene.add(mesh_paralelogram);
-    
+
+    // pivot object 
+    scene.add(pivot);
 }
 
 function animate() {
@@ -114,6 +133,7 @@ var planeIntersect = new THREE.Vector3(); // point of intersection with the plan
 var pIntersect = new THREE.Vector3(); // point of intersection with an object (plane's point)
 var shift = new THREE.Vector3(); // distance between position of an object and points of intersection with the object
 var is_dragging = false;
+var is_rotating = false;
 var drag_object;
 
 
@@ -125,23 +145,74 @@ document.addEventListener("pointermove", event => {
     raycaster.setFromCamera(mouse, camera);
       
     if (is_dragging) {
-        raycaster.ray.intersectPlane(plane, planeIntersect);
+        var intersection = raycaster.ray.intersectPlane(plane, planeIntersect);
         drag_object.position.addVectors(planeIntersect, shift);
+        console.log(planeIntersect)
+        pivot.position.set(...intersection);
     }
 });
 
 document.addEventListener("pointerdown", () => {
     var intersects = raycaster.intersectObjects(scene.children);
-    if (intersects.length > 0) {
+    if (intersects.length > 0 && intersects[0].object.id != silhouette_id) {
+        drag_object = intersects[0].object;
         pIntersect.copy(intersects[0].point);
         plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
         shift.subVectors(intersects[0].object.position, intersects[0].point);
         is_dragging = true;
-        drag_object = intersects[0].object;
+        is_rotating = true;
     }
 });
 
 document.addEventListener("pointerup", () => {
     is_dragging = false;
+    is_rotating = false;
     drag_object = null;
 } );
+
+document.addEventListener("wheel", (event) => {
+    if (is_rotating) {
+        event.preventDefault();
+        event.stopPropagation();
+        const obj_parent = drag_object.parent;
+        pivot.add(drag_object);
+        pivot.rotateZ(event.deltaY * 0.3E-3);
+        obj_parent.attach(drag_object);
+        // drag_object.parent.localToWorld(drag_object.position);
+        // drag_object.position.sub(pIntersect);
+        // drag_object.position.applyAxisAngle(pNormal, event.deltaY * 0.3E-3);
+        // drag_object.position.add(pIntersect);
+        // drag_object.parent.worldToLocal(drag_object.position);
+        // drag_object.rotateOnAxis(pNormal, event.deltaY * 0.3E-3);
+    }
+}, {passive: false});
+
+
+function point_in_polygon(point, polygon) {
+    var n = polygon.lenght;
+    var count = 0;
+    var x = point[0];
+    var y = point[1];
+  
+    for (var i = 0; i < n - 1; n++) {
+      var side = {
+        a: {
+          x: polygon[i][0],
+          y: polygon[i][1]
+        },
+        b: {
+          x: polygon[i + 1][0],
+          y: polygon[i + 1][1]
+        }
+      }
+      var x1 = side.a.x,
+        x2 = side.b.x,
+        y1 = side.a.y,
+        y2 = side.b.y;
+      
+      if (y < y1 != y < y2 && x < (x2 - x1)*(y - y1)/(y2 - y1)+x1){
+        count += 1;
+      }
+    }
+    return count % 2 == 0 ? false : true;
+  }
