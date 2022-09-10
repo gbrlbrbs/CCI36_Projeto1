@@ -51,6 +51,7 @@ function init() {
     const silhueta = create_mesh([v11, v12, v13, v13, v14, v11], 0xdcdcdc);
     scene.add(silhueta);
 
+
     //square
     const square = create_mesh([v2, v10, v8, v8, v7, v2], 0xff0000);
     scene.add(square);
