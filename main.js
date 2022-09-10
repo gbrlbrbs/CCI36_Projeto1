@@ -128,6 +128,7 @@ document.addEventListener("pointerdown", () => {
 });
 
 document.addEventListener("pointerup", () => {
+    console.log('deixou na posicao', drag_object.position);
     is_dragging = false;
     is_rotating = false;
     drag_object = null;
