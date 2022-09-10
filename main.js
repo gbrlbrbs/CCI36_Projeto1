@@ -48,36 +48,38 @@ function init() {
     const v14 = new THREE.Vector3(8, 11.3137, -0.001);
 
     //silhueta
-    const silhueta = create_mesh([v11, v12, v13, v13, v14, v11], 0xdcdcdc);
+    const silhueta = create_mesh([v11, v12, v13, v13, v14, v11], [], 0xdcdcdc);
     scene.add(silhueta);
 
 
     //square
-    const square = create_mesh([v2, v10, v8, v8, v7, v2], 0xff0000);
+    const square = create_mesh([v2, v10, v8, v8, v7, v2], [v2, v10, v8, v8, v7, v2], 0xff0000);
     scene.add(square);
 
+    console.log(square)
+
     //little triangle 1
-    const little_triangle1 = create_mesh([v1, v2, v7], 0xffff00);
+    const little_triangle1 = create_mesh([v1, v2, v7], [v1, v2, v7], 0xffff00);
     scene.add(little_triangle1);
 
     //little triangle 2
-    const little_triangle2 = create_mesh([v10, v9, v8], 0xffffff);
+    const little_triangle2 = create_mesh([v10, v9, v8], [v10, v9, v8], 0xffffff);
     scene.add(little_triangle2);
 
     //medium triangle
-    const medium_triangle = create_mesh([v2, v3, v4], 0x0000ff);
+    const medium_triangle = create_mesh([v2, v3, v4], [v2, v3, v4], 0x0000ff);
     scene.add(medium_triangle);
 
     //large triangle 1
-    const large_triangle1 = create_mesh([v1, v8, v6], 0x0000ff);
+    const large_triangle1 = create_mesh([v1, v8, v6], [v1, v8, v6], 0x0000ff);
     scene.add(large_triangle1);
 
     //large triangle 2
-    const large_triangle2 = create_mesh([v6, v8, v5], 0x00ffff);
+    const large_triangle2 = create_mesh([v6, v8, v5], [v6, v8, v5], 0x00ffff);
     scene.add(large_triangle2);
 
     //parallelogram
-    const parallelogram = create_mesh([v9, v10, v4, v4, v5, v9], 0xffff00);
+    const parallelogram = create_mesh([v9, v10, v4, v4, v5, v9], [v6, v8, v5], 0xffff00);
     scene.add(parallelogram);
 }
 
@@ -128,7 +130,14 @@ document.addEventListener("pointerdown", () => {
 });
 
 document.addEventListener("pointerup", () => {
-    console.log('deixou na posicao', drag_object.position);
+    console.log('deixou na posicao', drag_object.userData);
+
+    for (const v of drag_object.userData) {
+      const pos_vertex = new THREE.Vector3(v.x, v.y, v.z);
+      pos_vertex.applyMatrix4(drag_object.matrix);
+      console.log(pos_vertex);
+    }
+
     is_dragging = false;
     is_rotating = false;
     drag_object = null;
@@ -142,7 +151,7 @@ document.addEventListener("wheel", (event) => {
     }
 }, {passive: false});
 
-function create_mesh(list_of_vectors, color) {
+function create_mesh(list_of_vectors, list_of_vertices, color) {
     const geom = new THREE.BufferGeometry();
     const concat_array = list_of_vectors.map(x => x.toArray()).flat(1);
     const concat_array_typed = Float32Array.from(concat_array);
@@ -156,6 +165,7 @@ function create_mesh(list_of_vectors, color) {
     // console.log(center);
     mesh.geometry.center();
     mesh.position.add(center);
+    mesh.userData = list_of_vertices;
     return mesh
 }
 
