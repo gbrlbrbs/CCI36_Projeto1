@@ -184,9 +184,9 @@ function point_in_polygon(point, polygon) {
       }
     }
     return count % 2 == 0 ? false : true;
-  }
+}
 
-  function clip (subjectPolygon, clipPolygon) {
+function clip (subjectPolygon, clipPolygon) {
             
     var cp1, cp2, s, e;
     var inside = function (p) {
