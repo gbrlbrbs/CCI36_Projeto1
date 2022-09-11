@@ -2,7 +2,8 @@ import './style.css';
 import * as THREE from 'three';
 
 let camera, scene, renderer;
-let silhouette_id;
+let silhouette_vertices;
+var locked_ids = [];
 
 init();
 animate();
@@ -50,7 +51,9 @@ function init() {
     //silhueta
     const silhouette = create_mesh([v11, v12, v13, v13, v14, v11], 0xdcdcdc);
     scene.add(silhouette);
-    silhouette_id = silhouette.id;
+    locked_ids.push(silhouette.id);
+    silhouette_vertices = [v11, v12, v13, v14].map(x => x.toArray());
+    console.log(silhouette_vertices);
 
     //square
     const square = create_mesh([v2, v10, v8, v8, v7, v2], 0xff0000);
@@ -84,6 +87,15 @@ function init() {
 function animate() {
 
   requestAnimationFrame(animate);
+
+  // let vertices_selected;
+  // const area_selected = calculate_area(vertices_selected);
+  // var clipped_polygon = clip(vertices_selected, silhouette_vertices);
+  // const area_clipped = calculate_area(clipped_polygon);
+  // if (area_clipped / area_selected > 0.95) {
+        // locked_ids.push(drag_object.id)
+  // }
+
   renderer.render(scene, camera);
 
 }
@@ -117,7 +129,7 @@ document.addEventListener("pointermove", (event) => {
 
 document.addEventListener("pointerdown", () => {
     var intersects = raycaster.intersectObjects(scene.children);
-    if (intersects.length > 0 && intersects[0].object.id != silhouette_id) {
+    if (intersects.length > 0 && !locked_ids.includes(intersects[0].object.id)) {
         drag_object = intersects[0].object;
         pIntersect.copy(intersects[0].point);
         plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
@@ -188,6 +200,8 @@ function point_in_polygon(point, polygon) {
 
 // clip the tangram polygon based on the silhouette to get a list of vertices of a new polygon
 // we will calculate the area of this new polygon and check against the area of the tangram polygon
+// inputs are array of arrays
+// subject is the tangram polygon, clip is the silhouette
 function clip (subjectPolygon, clipPolygon) {
             
     var cp1, cp2, s, e;
