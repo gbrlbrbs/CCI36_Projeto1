@@ -48,9 +48,9 @@ function init() {
     const v14 = new THREE.Vector3(8, 11.3137, -0.001);
 
     //silhueta
-    const silhueta = create_mesh([v11, v12, v13, v13, v14, v11], 0xdcdcdc);
-    scene.add(silhueta);
-
+    const silhouette = create_mesh([v11, v12, v13, v13, v14, v11], 0xdcdcdc);
+    scene.add(silhouette);
+    silhouette_id = silhouette.id;
 
     //square
     const square = create_mesh([v2, v10, v8, v8, v7, v2], 0xff0000);
@@ -101,7 +101,7 @@ var drag_object = new THREE.Object3D();
 
 
 // events
-document.addEventListener("pointermove", event => {
+document.addEventListener("pointermove", (event) => {
 
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
@@ -152,7 +152,6 @@ function create_mesh(list_of_vectors, color) {
     mesh.geometry.computeBoundingBox();
     var center = new THREE.Vector3();
     mesh.geometry.boundingBox.getCenter(center);
-    // console.log(center);
     mesh.geometry.center();
     mesh.position.add(center);
     return mesh
@@ -187,6 +186,8 @@ function point_in_polygon(point, polygon) {
     return count % 2 == 0 ? false : true;
 }
 
+// clip the tangram polygon based on the silhouette to get a list of vertices of a new polygon
+// we will calculate the area of this new polygon and check against the area of the tangram polygon
 function clip (subjectPolygon, clipPolygon) {
             
     var cp1, cp2, s, e;
