@@ -11,7 +11,7 @@ animate();
 
 function init() {
 
-  //creating canvas
+    //creating canvas
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById("wrapper").appendChild(renderer.domElement);
@@ -20,41 +20,59 @@ function init() {
     scene.background = new THREE.Color('#add8e6');
 
     camera = new THREE.PerspectiveCamera(
-        85, 
-        window.innerWidth / window.innerHeight, 
-        0.01, 
-        100);
-    camera.position.z = 15;
-    camera.position.y = 10;
+        89,
+        window.innerWidth / window.innerHeight,
+        0.01,
+        200);
+    camera.position.z = 28;
+    camera.position.y = 0;
     camera.position.x = 5;
-    
+
     //const axesHelper = new THREE.AxesHelper(2);
     //scene.add(axesHelper);
 
     //renderer.render(scene, camera);
 
-    const v1 = new THREE.Vector3(-10,0,0);
-    const v2 = new THREE.Vector3(-2,0,0);
-    const v3 = new THREE.Vector3(6,0,0);
-    const v4 = new THREE.Vector3(6,8,0);
-    const v5 = new THREE.Vector3(6,16,0);
-    const v6 = new THREE.Vector3(-10,16,0);
-    const v7 = new THREE.Vector3(-6,4,0);
-    const v8 = new THREE.Vector3(-2,8,0);
-    const v9 = new THREE.Vector3(2,12,0);
-    const v10 = new THREE.Vector3(2,4,0);
-    
-    const v11 = new THREE.Vector3(8, 0, -0.001);
-    const v12 = new THREE.Vector3(30.3137, 0, -0.001);
-    const v13 = new THREE.Vector3(30.3137, 11.3137, -0.001);
-    const v14 = new THREE.Vector3(8, 11.3137, -0.001);
+    const v1 = new THREE.Vector3(-15-10, 0, 0.001);
+    const v2 = new THREE.Vector3(-7-10, 0, 0.001);
+    const v3 = new THREE.Vector3(1-10, 0, 0.001);
+    const v4 = new THREE.Vector3(1-10, 8, 0.001);
+    const v5 = new THREE.Vector3(1-10, 16, 0.001);
+    const v6 = new THREE.Vector3(-15-10, 16, 0.001);
+    const v7 = new THREE.Vector3(-11-10, 4, 0.001);
+    const v8 = new THREE.Vector3(-7-10, 8, 0.001);
+    const v9 = new THREE.Vector3(-3-10, 12, 0.001);
+    const v10 = new THREE.Vector3(-3-10, 4, 0.001);
+
+    //const v111 = new THREE.Vector3(8, 0, -0.005);
+    //const v121 = new THREE.Vector3(30.3137, 0, -0.005);
+    //const v131 = new THREE.Vector3(30.3137, 11.3137, -0.005);
+    //const v141 = new THREE.Vector3(8, 11.3137, -0.005);
+
+    const v11 = new THREE.Vector3(30+10, -10, -0.001);
+    const v12 = new THREE.Vector3(24.34+10, -10, -0.001);
+    const v13 = new THREE.Vector3(24.34+10, 5.66 - 10, -0.001);
+    const v14 = new THREE.Vector3(24.34+10, 11.32 - 10, -0.001);
+    const v15 = new THREE.Vector3(18.68+10, 16.98 - 10, -0.001);
+    const v16 = new THREE.Vector3(18.68+10, 11.32 - 10, -0.001);
+    const v17 = new THREE.Vector3(18.68+10, 8.98 - 10, -0.001);
+    const v18 = new THREE.Vector3(10.68+10, 8.98 - 10, -0.001);
+    const v19 = new THREE.Vector3(5.02+10, 8.98 - 10, -0.001);
+    const v20 = new THREE.Vector3(5.02+10, 3.32 - 10, -0.001);
+    const v21 = new THREE.Vector3(29.99+10, 28.29 - 10, -0.001);
+    const v22 = new THREE.Vector3(18.68+10, 28.29 - 10, -0.001);
+    const v23 = new THREE.Vector3(7.36+10, 28.29 - 10, -0.001);
+    const v24 = new THREE.Vector3(14.68+10, 32.29 - 10, -0.001);
+    const v25 = new THREE.Vector3(18.68+10, 36.29 - 10, -0.001);
+    const v26 = new THREE.Vector3(22.68+10, 32.29 - 10, -0.001);
+
 
     //silhueta
-    const silhouette = create_mesh([v11, v12, v13, v13, v14, v11], 0xdcdcdc);
-    scene.add(silhouette);
-    locked_ids.push(silhouette.id);
-    silhouette_vertices = [v11, v12, v13, v14].map(x => x.toArray());
-    console.log(silhouette_vertices);
+    //const silhouette = create_mesh([v111, v121, v131, v131, v141, v111], 0xdcdcdc);
+    //scene.add(silhouette);
+    //locked_ids.push(silhouette.id);
+    //silhouette_vertices = [v12, v11, v13, v14, v15, v21, v22, v26, v25, v24, v23, v15, v18, v19, v20, v18, v17, v16, v13, v12].map(x => x.toArray());
+    //console.log(silhouette_vertices);
 
     //square
     const square = create_mesh([v2, v10, v8, v8, v7, v2], 0xff0000);
@@ -83,46 +101,85 @@ function init() {
     //parallelogram
     const parallelogram = create_mesh([v9, v10, v4, v4, v5, v9], 0xffff00);
     scene.add(parallelogram);
+
+    //silhueta
+    //little triangle 1
+    const target_little_triangle1 = create_mesh([v12, v11, v13], 0xdcdcdc);
+    scene.add(target_little_triangle1);
+    locked_ids.push(target_little_triangle1.id);
+
+    //little triangle 2
+    const target_little_triangle2 = create_mesh([v20, v18, v19], 0xdcdcdc);
+    scene.add(target_little_triangle2);
+    locked_ids.push(target_little_triangle2.id);
+
+    //parallelogram
+    const target_parallelogram = create_mesh([v16, v13, v14, v14, v15, v16], 0xdcdcdc);
+    scene.add(target_parallelogram);
+    locked_ids.push(target_parallelogram.id);
+
+    //medium triangle
+    const target_medium_triangle = create_mesh([v18, v17, v15], 0xdcdcdc);
+    scene.add(target_medium_triangle);
+    locked_ids.push(target_medium_triangle.id);
+
+    //large triangle 1
+    const target_large_triangle1 = create_mesh([v15, v21, v22], 0xdcdcdc);
+    scene.add(target_large_triangle1);
+    locked_ids.push(target_large_triangle1.id);
+
+    //large triangle 2
+    const target_large_triangle2 = create_mesh([v15, v22, v23], 0xdcdcdc);
+    scene.add(target_large_triangle2);
+    locked_ids.push(target_large_triangle2.id);
+
+    //square
+    const target_square = create_mesh([v22, v26, v25, v25, v24, v22], 0xdcdcdc);
+    scene.add(target_square);
+    locked_ids.push(target_square.id);
+
+    silhouette_vertices = [v12, v11, v13, v14, v15, v21, v22, v26, v25, v24, v23, v15, v18, v19, v20, v18, v17, v16, v13, v12].map(x => x.toArray());
+    console.log(silhouette_vertices);
 }
 
 function animate() {
 
-  var request_id = requestAnimationFrame(animate);
+    var request_id = requestAnimationFrame(animate);
 
-  var vertices_selected = [];
-  if (drag_object != null) {
+    var vertices_selected = [];
+    if (drag_object != null) {
 
-    const position_attribute = drag_object.geometry.getAttribute('position');
-    for (var i = 0; i < drag_object.geometry.attributes.position.array.length / 3; ++i) {
-      const vertex = new THREE.Vector3();
-      vertex.fromBufferAttribute(position_attribute, i);
-      drag_object.localToWorld(vertex);
-      vertices_selected.push(vertex.toArray());
-    }
-    console.log(vertices_selected);
-    const area_selected = calculate_area(vertices_selected);
-    var clipped_polygon = clip(vertices_selected, silhouette_vertices);
-    const area_clipped = calculate_area(clipped_polygon);
-    if (area_clipped / area_selected > 0.9999) {
-      tiles_placed[drag_object.id] = 1;
-    } else if (area_clipped / area_selected <= 0.9999 && (drag_object.id in tiles_placed)) {
-      tiles_placed[drag_object.id] = 0;
-    }
-    console.log(tiles_placed);
-  }
-
-  if (Object.keys(tiles_placed).length > 0) {
-    // end game if tiles_placed.keys().length == 7 and every value is 1 (that is, sum == 7)
-    var sum_tiles_placed = Object.values(tiles_placed).reduce((a, b) => a + b, 0);
-    if (Object.keys(tiles_placed).length == 7 && sum_tiles_placed == 7) {
-      cancelAnimationFrame(request_id);
-      var win_screen = document.getElementById("overlay");
-      win_screen.style.display = "block";
+        const position_attribute = drag_object.geometry.getAttribute('position');
+        for (var i = 0; i < drag_object.geometry.attributes.position.array.length / 3; ++i) {
+            const vertex = new THREE.Vector3();
+            vertex.fromBufferAttribute(position_attribute, i);
+            drag_object.localToWorld(vertex);
+            vertices_selected.push(vertex.toArray());
+        }
+        console.log(vertices_selected);
+        const area_selected = calculate_area(vertices_selected);
+        var clipped_polygon = clip(vertices_selected, silhouette_vertices);
+        const area_clipped = calculate_area(clipped_polygon);
+        if (area_clipped / area_selected > 0.9999) {
+            tiles_placed[drag_object.id] = 1;
+        } else if (area_clipped / area_selected <= 0.9999 && (drag_object.id in tiles_placed)) {
+            tiles_placed[drag_object.id] = 0;
+        }
+        console.log(tiles_placed);
     }
 
-  }
+    if (Object.keys(tiles_placed).length > 0) {
+        // end game if tiles_placed.keys().length == 7 and every value is 1 (that is, sum == 7)
+        var sum_tiles_placed = Object.values(tiles_placed).reduce((a, b) => a + b, 0);
+        if (Object.keys(tiles_placed).length == 7 && sum_tiles_placed == 7) {
+            cancelAnimationFrame(request_id);
+            var win_screen = document.getElementById("overlay");
+            win_screen.style.display = "block";
+        }
 
-  renderer.render(scene, camera);
+    }
+
+    renderer.render(scene, camera);
 
 }
 
@@ -141,10 +198,10 @@ var drag_object;
 // events
 document.addEventListener("pointermove", (event) => {
 
-    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
-      
+
     if (is_dragging) {
         var intersection = raycaster.ray.intersectPlane(plane, planeIntersect);
         drag_object.geometry.computeBoundingBox();
@@ -169,7 +226,7 @@ document.addEventListener("pointerup", () => {
     is_dragging = false;
     is_rotating = false;
     drag_object = null;
-} );
+});
 
 document.addEventListener("wheel", (event) => {
     if (is_rotating) {
@@ -177,14 +234,14 @@ document.addEventListener("wheel", (event) => {
         event.stopPropagation();
         drag_object.rotateOnAxis(pNormal, event.deltaY * 0.3E-3);
     }
-}, {passive: false});
+}, { passive: false });
 
 function create_mesh(list_of_vectors, color) {
     const geom = new THREE.BufferGeometry();
     const concat_array = list_of_vectors.map(x => x.toArray()).flat(1);
     const concat_array_typed = Float32Array.from(concat_array);
     geom.setAttribute('position', new THREE.BufferAttribute(concat_array_typed, 3));
-    const material = new THREE.MeshBasicMaterial({color: color});
+    const material = new THREE.MeshBasicMaterial({ color: color });
     const mesh = new THREE.Mesh(geom, material);
     mesh.updateMatrixWorld();
     mesh.geometry.computeBoundingBox();
@@ -200,61 +257,61 @@ function point_in_polygon(point, polygon) {
     var count = 0;
     var x = point[0];
     var y = point[1];
-  
+
     for (var i = 0; i < n - 1; n++) {
-      var side = {
-        a: {
-          x: polygon[i][0],
-          y: polygon[i][1]
-        },
-        b: {
-          x: polygon[i + 1][0],
-          y: polygon[i + 1][1]
+        var side = {
+            a: {
+                x: polygon[i][0],
+                y: polygon[i][1]
+            },
+            b: {
+                x: polygon[i + 1][0],
+                y: polygon[i + 1][1]
+            }
         }
-      }
-      var x1 = side.a.x,
-        x2 = side.b.x,
-        y1 = side.a.y,
-        y2 = side.b.y;
-      
-      if (y < y1 != y < y2 && x < (x2 - x1)*(y - y1)/(y2 - y1)+x1){
-        count += 1;
-      }
+        var x1 = side.a.x,
+            x2 = side.b.x,
+            y1 = side.a.y,
+            y2 = side.b.y;
+
+        if (y < y1 != y < y2 && x < (x2 - x1) * (y - y1) / (y2 - y1) + x1) {
+            count += 1;
+        }
     }
     return count % 2 == 0 ? false : true;
 }
 
 function calculate_area(points) {
-  var area = 0.0;
-  const n = points.length;
-  var j = n - 1;
-  for (var i = 0; i < n; i++) {
-    area += (points[j][0] + points[i][0]) * (points[j][1] - points[i][1]);
-    j = i;
-  }
-  return Math.abs(area / 2.0);
+    var area = 0.0;
+    const n = points.length;
+    var j = n - 1;
+    for (var i = 0; i < n; i++) {
+        area += (points[j][0] + points[i][0]) * (points[j][1] - points[i][1]);
+        j = i;
+    }
+    return Math.abs(area / 2.0);
 }
 
 // clip the tangram polygon based on the silhouette to get a list of vertices of a new polygon
 // we will calculate the area of this new polygon and check against the area of the tangram polygon
 // inputs are array of arrays
 // subject is the tangram polygon, clip is the silhouette
-function clip (subjectPolygon, clipPolygon) {
-            
+function clip(subjectPolygon, clipPolygon) {
+
     var cp1, cp2, s, e;
     var inside = function (p) {
-        return (cp2[0]-cp1[0])*(p[1]-cp1[1]) > (cp2[1]-cp1[1])*(p[0]-cp1[0]);
+        return (cp2[0] - cp1[0]) * (p[1] - cp1[1]) > (cp2[1] - cp1[1]) * (p[0] - cp1[0]);
     };
     var intersection = function () {
-        var dc = [ cp1[0] - cp2[0], cp1[1] - cp2[1] ],
-            dp = [ s[0] - e[0], s[1] - e[1] ],
+        var dc = [cp1[0] - cp2[0], cp1[1] - cp2[1]],
+            dp = [s[0] - e[0], s[1] - e[1]],
             n1 = cp1[0] * cp2[1] - cp1[1] * cp2[0],
-            n2 = s[0] * e[1] - s[1] * e[0], 
+            n2 = s[0] * e[1] - s[1] * e[0],
             n3 = 1.0 / (dc[0] * dp[1] - dc[1] * dp[0]);
-        return [(n1*dp[0] - n2*dc[0]) * n3, (n1*dp[1] - n2*dc[1]) * n3];
+        return [(n1 * dp[0] - n2 * dc[0]) * n3, (n1 * dp[1] - n2 * dc[1]) * n3];
     };
     var outputList = subjectPolygon;
-    cp1 = clipPolygon[clipPolygon.length-1];
+    cp1 = clipPolygon[clipPolygon.length - 1];
     for (var j in clipPolygon) {
         cp2 = clipPolygon[j];
         var inputList = outputList;
