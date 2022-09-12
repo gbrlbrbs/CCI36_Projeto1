@@ -4,6 +4,7 @@ import * as THREE from 'three';
 let camera, scene, renderer;
 let silhouette_vertices;
 var locked_ids = [];
+var tiles_placed = {};
 
 init();
 animate();
@@ -86,15 +87,38 @@ function init() {
 
 function animate() {
 
-  requestAnimationFrame(animate);
+  var request_id = requestAnimationFrame(animate);
 
-  // let vertices_selected;
-  // const area_selected = calculate_area(vertices_selected);
-  // var clipped_polygon = clip(vertices_selected, silhouette_vertices);
-  // const area_clipped = calculate_area(clipped_polygon);
-  // if (area_clipped / area_selected > 0.95) {
-        // locked_ids.push(drag_object.id)
-  // }
+  var vertices_selected = [];
+  if (drag_object != null) {
+
+    const position_attribute = drag_object.geometry.getAttribute('position');
+    for (var i = 0; i < drag_object.geometry.attributes.position.array.length / 3; ++i) {
+      const vertex = new THREE.Vector3();
+      vertex.fromBufferAttribute(position_attribute, i);
+      drag_object.localToWorld(vertex);
+      vertices_selected.push(vertex.toArray());
+    }
+    console.log(vertices_selected);
+    const area_selected = calculate_area(vertices_selected);
+    var clipped_polygon = clip(vertices_selected, silhouette_vertices);
+    const area_clipped = calculate_area(clipped_polygon);
+    if (area_clipped / area_selected > 0.9999) {
+      tiles_placed[drag_object.id] = 1;
+    } else if (area_clipped / area_selected <= 0.9999 && (drag_object.id in tiles_placed)) {
+      tiles_placed[drag_object.id] = 0;
+    }
+    console.log(tiles_placed);
+  }
+
+  if (Object.keys(tiles_placed).length > 0) {
+    // end game if tiles_placed.keys().length == 7 and every value is 1 (that is, sum == 7)
+    var sum_tiles_placed = Object.values(tiles_placed).reduce((a, b) => a + b, 0);
+    if (Object.keys(tiles_placed).length == 7 && sum_tiles_placed == 7) {
+      cancelAnimationFrame(request_id);
+    }
+
+  }
 
   renderer.render(scene, camera);
 
@@ -109,7 +133,7 @@ var pIntersect = new THREE.Vector3(); // point of intersection with an object (p
 var shift = new THREE.Vector3(); // distance between position of an object and points of intersection with the object
 var is_dragging = false;
 var is_rotating = false;
-var drag_object = new THREE.Object3D();
+var drag_object;
 
 
 // events
@@ -198,6 +222,17 @@ function point_in_polygon(point, polygon) {
     return count % 2 == 0 ? false : true;
 }
 
+function calculate_area(points) {
+  var area = 0.0;
+  const n = points.length;
+  var j = n - 1;
+  for (var i = 0; i < n; i++) {
+    area += (points[j][0] + points[i][0]) * (points[j][1] - points[i][1]);
+    j = i;
+  }
+  return Math.abs(area / 2.0);
+}
+
 // clip the tangram polygon based on the silhouette to get a list of vertices of a new polygon
 // we will calculate the area of this new polygon and check against the area of the tangram polygon
 // inputs are array of arrays
@@ -206,7 +241,7 @@ function clip (subjectPolygon, clipPolygon) {
             
     var cp1, cp2, s, e;
     var inside = function (p) {
-        return (cp2[0]-cp1[0])(p[1]-cp1[1]) > (cp2[1]-cp1[1])(p[0]-cp1[0]);
+        return (cp2[0]-cp1[0])*(p[1]-cp1[1]) > (cp2[1]-cp1[1])*(p[0]-cp1[0]);
     };
     var intersection = function () {
         var dc = [ cp1[0] - cp2[0], cp1[1] - cp2[1] ],
