@@ -28,51 +28,35 @@ function init() {
     camera.position.y = 0;
     camera.position.x = 5;
 
-    //const axesHelper = new THREE.AxesHelper(2);
-    //scene.add(axesHelper);
 
-    //renderer.render(scene, camera);
-
-    const v1 = new THREE.Vector3(-15-10, 0, 0.001);
-    const v2 = new THREE.Vector3(-7-10, 0, 0.001);
-    const v3 = new THREE.Vector3(1-10, 0, 0.001);
-    const v4 = new THREE.Vector3(1-10, 8, 0.001);
-    const v5 = new THREE.Vector3(1-10, 16, 0.001);
-    const v6 = new THREE.Vector3(-15-10, 16, 0.001);
-    const v7 = new THREE.Vector3(-11-10, 4, 0.001);
-    const v8 = new THREE.Vector3(-7-10, 8, 0.001);
-    const v9 = new THREE.Vector3(-3-10, 12, 0.001);
-    const v10 = new THREE.Vector3(-3-10, 4, 0.001);
-
-    //const v111 = new THREE.Vector3(8, 0, -0.005);
-    //const v121 = new THREE.Vector3(30.3137, 0, -0.005);
-    //const v131 = new THREE.Vector3(30.3137, 11.3137, -0.005);
-    //const v141 = new THREE.Vector3(8, 11.3137, -0.005);
-
-    const v11 = new THREE.Vector3(30+10, -10, -0.001);
-    const v12 = new THREE.Vector3(24.34+10, -10, -0.001);
-    const v13 = new THREE.Vector3(24.34+10, 5.66 - 10, -0.001);
-    const v14 = new THREE.Vector3(24.34+10, 11.32 - 10, -0.001);
-    const v15 = new THREE.Vector3(18.68+10, 16.98 - 10, -0.001);
-    const v16 = new THREE.Vector3(18.68+10, 11.32 - 10, -0.001);
-    const v17 = new THREE.Vector3(18.68+10, 8.98 - 10, -0.001);
-    const v18 = new THREE.Vector3(10.68+10, 8.98 - 10, -0.001);
-    const v19 = new THREE.Vector3(5.02+10, 8.98 - 10, -0.001);
-    const v20 = new THREE.Vector3(5.02+10, 3.32 - 10, -0.001);
-    const v21 = new THREE.Vector3(29.99+10, 28.29 - 10, -0.001);
-    const v22 = new THREE.Vector3(18.68+10, 28.29 - 10, -0.001);
-    const v23 = new THREE.Vector3(7.36+10, 28.29 - 10, -0.001);
-    const v24 = new THREE.Vector3(14.68+10, 32.29 - 10, -0.001);
-    const v25 = new THREE.Vector3(18.68+10, 36.29 - 10, -0.001);
-    const v26 = new THREE.Vector3(22.68+10, 32.29 - 10, -0.001);
+    const v1 = new THREE.Vector3(-25, 0, 0.001);
+    const v2 = new THREE.Vector3(-17, 0, 0.001);
+    const v3 = new THREE.Vector3(-9, 0, 0.001);
+    const v4 = new THREE.Vector3(-9, 8, 0.001);
+    const v5 = new THREE.Vector3(-9, 16, 0.001);
+    const v6 = new THREE.Vector3(-25, 16, 0.001);
+    const v7 = new THREE.Vector3(-21, 4, 0.001);
+    const v8 = new THREE.Vector3(-17, 8, 0.001);
+    const v9 = new THREE.Vector3(-13, 12, 0.001);
+    const v10 = new THREE.Vector3(-13, 4, 0.001);
 
 
-    //silhueta
-    //const silhouette = create_mesh([v111, v121, v131, v131, v141, v111], 0xdcdcdc);
-    //scene.add(silhouette);
-    //locked_ids.push(silhouette.id);
-    //silhouette_vertices = [v12, v11, v13, v14, v15, v21, v22, v26, v25, v24, v23, v15, v18, v19, v20, v18, v17, v16, v13, v12].map(x => x.toArray());
-    //console.log(silhouette_vertices);
+    const v11 = new THREE.Vector3(40, -10, -0.001);
+    const v12 = new THREE.Vector3(34.34, -10, -0.001);
+    const v13 = new THREE.Vector3(34.34, -4.34, -0.001);
+    const v14 = new THREE.Vector3(34.34, 1.32, -0.001);
+    const v15 = new THREE.Vector3(28.68, 6.98, -0.001);
+    const v16 = new THREE.Vector3(28.68, 1.32, -0.001);
+    const v17 = new THREE.Vector3(28.68, -1.02, -0.001);
+    const v18 = new THREE.Vector3(20.68, -1.02, -0.001);
+    const v19 = new THREE.Vector3(15.02, -1.02, -0.001);
+    const v20 = new THREE.Vector3(15.02, -6.68, -0.001);
+    const v21 = new THREE.Vector3(39.99, 18.29, -0.001);
+    const v22 = new THREE.Vector3(28.68, 18.29, -0.001);
+    const v23 = new THREE.Vector3(17.36, 18.29, -0.001);
+    const v24 = new THREE.Vector3(24.68, 22.29, -0.001);
+    const v25 = new THREE.Vector3(28.68, 26.29, -0.001);
+    const v26 = new THREE.Vector3(32.68, 22.29, -0.001);
 
     //square
     const square = create_mesh([v2, v10, v8, v8, v7, v2], 0xff0000);
