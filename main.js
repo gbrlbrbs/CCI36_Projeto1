@@ -2,7 +2,7 @@ import './style.css';
 import * as THREE from 'three';
 
 let camera, scene, renderer;
-let silhouette_vertices;
+var target_silhouette_vertices = [];
 var locked_ids = [];
 var tiles_placed = {};
 
@@ -41,22 +41,22 @@ function init() {
     const v10 = new THREE.Vector3(-13, 4, 0.01);
 
 
-    const v11 = new THREE.Vector3(40, -10, -0.01);
-    const v12 = new THREE.Vector3(34.34, -10, -0.01);
-    const v13 = new THREE.Vector3(34.34, -4.34, -0.01);
-    const v14 = new THREE.Vector3(34.34, 1.32, -0.01);
-    const v15 = new THREE.Vector3(28.68, 6.98, -0.01);
-    const v16 = new THREE.Vector3(28.68, 1.32, -0.01);
-    const v17 = new THREE.Vector3(28.68, -1.02, -0.01);
-    const v18 = new THREE.Vector3(20.68, -1.02, -0.01);
-    const v19 = new THREE.Vector3(15.02, -1.02, -0.01);
-    const v20 = new THREE.Vector3(15.02, -6.68, -0.01);
-    const v21 = new THREE.Vector3(39.99, 18.29, -0.01);
-    const v22 = new THREE.Vector3(28.68, 18.29, -0.01);
-    const v23 = new THREE.Vector3(17.36, 18.29, -0.01);
-    const v24 = new THREE.Vector3(24.68, 22.29, -0.01);
-    const v25 = new THREE.Vector3(28.68, 26.29, -0.01);
-    const v26 = new THREE.Vector3(32.68, 22.29, -0.01);
+    const v11 = new THREE.Vector3(40, -10, -0.001);
+    const v12 = new THREE.Vector3(34.34, -10, -0.001);
+    const v13 = new THREE.Vector3(34.34, -4.38, -0.001);
+    const v14 = new THREE.Vector3(34.34, 1.32, -0.001);
+    const v15 = new THREE.Vector3(28.68, 6.98, -0.001);
+    const v16 = new THREE.Vector3(28.68, 1.32, -0.001);
+    const v17 = new THREE.Vector3(28.68, -1.02, -0.001);
+    const v18 = new THREE.Vector3(20.68, -1.02, -0.001);
+    const v19 = new THREE.Vector3(15.02, -1.02, -0.001);
+    const v20 = new THREE.Vector3(15.02, -6.68, -0.001);
+    const v21 = new THREE.Vector3(39.99, 18.29, -0.001);
+    const v22 = new THREE.Vector3(28.68, 18.29, -0.001);
+    const v23 = new THREE.Vector3(17.36, 18.29, -0.001);
+    const v24 = new THREE.Vector3(24.68, 22.29, -0.001);
+    const v25 = new THREE.Vector3(28.68, 26.29, -0.001);
+    const v26 = new THREE.Vector3(32.68, 22.29, -0.001);
 
     //square
     const square = create_mesh([v2, v10, v8, v8, v7, v2], 0xff0000);
@@ -91,21 +91,25 @@ function init() {
     const target_little_triangle1 = create_mesh([v12, v11, v13], 0xdcdcdc);
     scene.add(target_little_triangle1);
     locked_ids.push(target_little_triangle1.id);
+    target_silhouette_vertices.push([v12, v11, v13].map(x => x.toArray()));
 
     //little triangle 2
     const target_little_triangle2 = create_mesh([v20, v18, v19], 0xdcdcdc);
     scene.add(target_little_triangle2);
     locked_ids.push(target_little_triangle2.id);
+    target_silhouette_vertices.push([v20, v18, v19].map(x => x.toArray()));
 
     //parallelogram
     const target_parallelogram = create_mesh([v16, v13, v14, v14, v15, v16], 0xdcdcdc);
     scene.add(target_parallelogram);
     locked_ids.push(target_parallelogram.id);
+    target_silhouette_vertices.push([v16, v13, v14, v15].map(x => x.toArray()));
 
     //medium triangle
     const target_medium_triangle = create_mesh([v18, v17, v15], 0xdcdcdc);
     scene.add(target_medium_triangle);
     locked_ids.push(target_medium_triangle.id);
+    target_silhouette_vertices.push([v18, v17, v15].map(x => x.toArray()));
 
     //large triangle 1
     const target_large_triangle1 = create_mesh([v15, v21, v22], 0xdcdcdc);
@@ -116,22 +120,22 @@ function init() {
     const target_large_triangle2 = create_mesh([v15, v22, v23], 0xdcdcdc);
     scene.add(target_large_triangle2);
     locked_ids.push(target_large_triangle2.id);
+    target_silhouette_vertices.push([v15, v21, v23].map(x => x.toArray()));
 
     //square
     const target_square = create_mesh([v22, v26, v25, v25, v24, v22], 0xdcdcdc);
     scene.add(target_square);
     locked_ids.push(target_square.id);
+    target_silhouette_vertices.push([v22, v26, v25, v24].map(x => x.toArray()));
 
-    silhouette_vertices = [v12, v11, v13, v14, v15, v21, v22, v26, v25, v24, v23, v15, v18, v19, v20, v18, v17, v16, v13, v12].map(x => x.toArray());
-    console.log(silhouette_vertices);
 }
 
 function animate() {
 
     var request_id = requestAnimationFrame(animate);
 
-    var vertices_selected = [];
     if (drag_object != null) {
+        var vertices_selected = [];
 
         const position_attribute = drag_object.geometry.getAttribute('position');
         for (var i = 0; i < drag_object.geometry.attributes.position.array.length / 3; ++i) {
@@ -141,12 +145,15 @@ function animate() {
             vertices_selected.push(vertex.toArray());
         }
         console.log(vertices_selected);
+        console.log(target_silhouette_vertices[0]);
         const area_selected = calculate_area(vertices_selected);
-        var clipped_polygon = clip(vertices_selected, silhouette_vertices);
-        const area_clipped = calculate_area(clipped_polygon);
-        if (area_clipped / area_selected > 0.9999) {
+        const clipped_polygons_array = target_silhouette_vertices.map(x => clip(vertices_selected, x));
+        const area_array = clipped_polygons_array.map(x => calculate_area(x));
+        const fraction_area_array = area_array.map(x => x/area_selected);
+        const larger_than_array = fraction_area_array.map(x => x > 0.93)
+        if (larger_than_array.includes(true)) {
             tiles_placed[drag_object.id] = 1;
-        } else if (area_clipped / area_selected <= 0.9999 && (drag_object.id in tiles_placed)) {
+        } else if (!(larger_than_array.includes(true)) && (drag_object.id in tiles_placed)) {
             tiles_placed[drag_object.id] = 0;
         }
         console.log(tiles_placed);
@@ -216,7 +223,7 @@ document.addEventListener("wheel", (event) => {
     if (is_rotating) {
         event.preventDefault();
         event.stopPropagation();
-        drag_object.rotateOnAxis(pNormal, event.deltaY * 0.3E-3);
+        drag_object.rotateOnAxis(pNormal, event.deltaY * 0.8E-4);
     }
 }, { passive: false });
 
