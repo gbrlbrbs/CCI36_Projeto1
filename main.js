@@ -29,34 +29,34 @@ function init() {
     camera.position.x = 5;
 
 
-    const v1 = new THREE.Vector3(-25, 0, 0.001);
-    const v2 = new THREE.Vector3(-17, 0, 0.001);
-    const v3 = new THREE.Vector3(-9, 0, 0.001);
-    const v4 = new THREE.Vector3(-9, 8, 0.001);
-    const v5 = new THREE.Vector3(-9, 16, 0.001);
-    const v6 = new THREE.Vector3(-25, 16, 0.001);
-    const v7 = new THREE.Vector3(-21, 4, 0.001);
-    const v8 = new THREE.Vector3(-17, 8, 0.001);
-    const v9 = new THREE.Vector3(-13, 12, 0.001);
-    const v10 = new THREE.Vector3(-13, 4, 0.001);
+    const v1 = new THREE.Vector3(-25, 0, 0.01);
+    const v2 = new THREE.Vector3(-17, 0, 0.01);
+    const v3 = new THREE.Vector3(-9, 0, 0.01);
+    const v4 = new THREE.Vector3(-9, 8, 0.01);
+    const v5 = new THREE.Vector3(-9, 16, 0.01);
+    const v6 = new THREE.Vector3(-25, 16, 0.01);
+    const v7 = new THREE.Vector3(-21, 4, 0.01);
+    const v8 = new THREE.Vector3(-17, 8, 0.01);
+    const v9 = new THREE.Vector3(-13, 12, 0.01);
+    const v10 = new THREE.Vector3(-13, 4, 0.01);
 
 
-    const v11 = new THREE.Vector3(40, -10, -0.001);
-    const v12 = new THREE.Vector3(34.34, -10, -0.001);
-    const v13 = new THREE.Vector3(34.34, -4.34, -0.001);
-    const v14 = new THREE.Vector3(34.34, 1.32, -0.001);
-    const v15 = new THREE.Vector3(28.68, 6.98, -0.001);
-    const v16 = new THREE.Vector3(28.68, 1.32, -0.001);
-    const v17 = new THREE.Vector3(28.68, -1.02, -0.001);
-    const v18 = new THREE.Vector3(20.68, -1.02, -0.001);
-    const v19 = new THREE.Vector3(15.02, -1.02, -0.001);
-    const v20 = new THREE.Vector3(15.02, -6.68, -0.001);
-    const v21 = new THREE.Vector3(39.99, 18.29, -0.001);
-    const v22 = new THREE.Vector3(28.68, 18.29, -0.001);
-    const v23 = new THREE.Vector3(17.36, 18.29, -0.001);
-    const v24 = new THREE.Vector3(24.68, 22.29, -0.001);
-    const v25 = new THREE.Vector3(28.68, 26.29, -0.001);
-    const v26 = new THREE.Vector3(32.68, 22.29, -0.001);
+    const v11 = new THREE.Vector3(40, -10, -0.01);
+    const v12 = new THREE.Vector3(34.34, -10, -0.01);
+    const v13 = new THREE.Vector3(34.34, -4.34, -0.01);
+    const v14 = new THREE.Vector3(34.34, 1.32, -0.01);
+    const v15 = new THREE.Vector3(28.68, 6.98, -0.01);
+    const v16 = new THREE.Vector3(28.68, 1.32, -0.01);
+    const v17 = new THREE.Vector3(28.68, -1.02, -0.01);
+    const v18 = new THREE.Vector3(20.68, -1.02, -0.01);
+    const v19 = new THREE.Vector3(15.02, -1.02, -0.01);
+    const v20 = new THREE.Vector3(15.02, -6.68, -0.01);
+    const v21 = new THREE.Vector3(39.99, 18.29, -0.01);
+    const v22 = new THREE.Vector3(28.68, 18.29, -0.01);
+    const v23 = new THREE.Vector3(17.36, 18.29, -0.01);
+    const v24 = new THREE.Vector3(24.68, 22.29, -0.01);
+    const v25 = new THREE.Vector3(28.68, 26.29, -0.01);
+    const v26 = new THREE.Vector3(32.68, 22.29, -0.01);
 
     //square
     const square = create_mesh([v2, v10, v8, v8, v7, v2], 0xff0000);
