@@ -28,3 +28,22 @@ header {
 .container {
   padding: 20px;
 }
+
+.wrapper {
+  position: relative;
+  margin: auto;
+  text-align: center;
+}
+
+.wrapper #overlay {
+  position: absolute;
+  margin: auto;
+  left:50%;
+  top: 50%;
+  transform: translate(-50%, 0%);
+  border: 3px solid green;
+  padding: 10px;
+  text-align: center;
+  z-index: 2;
+}
+

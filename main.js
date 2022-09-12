@@ -14,7 +14,7 @@ function init() {
   //creating canvas
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    document.getElementById("wrapper").appendChild(renderer.domElement);
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color('#add8e6');
@@ -116,6 +116,8 @@ function animate() {
     var sum_tiles_placed = Object.values(tiles_placed).reduce((a, b) => a + b, 0);
     if (Object.keys(tiles_placed).length == 7 && sum_tiles_placed == 7) {
       cancelAnimationFrame(request_id);
+      var win_screen = document.getElementById("overlay");
+      win_screen.style.display = "block";
     }
 
   }
